@@ -35,11 +35,12 @@ Route::post('/login', function(Request $request){
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/notifications', function () {return Auth::user()->notifications; });
-    
+
     Route::apiResource('courses', CourseController::class);
     Route::apiResource('tags', TagController::class)->only(['index', 'store']);
     
     Route::post('courses/{course}/lessons', [LessonController::class, 'store']);
+    Route::post('courses/{course}/tags', [CourseController::class, 'attachTags']);
     Route::post('comments', [CommentController::class, 'store']);
     Route::post('media', [MediaController::class, 'store']);
 });

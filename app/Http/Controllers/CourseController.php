@@ -29,6 +29,16 @@ class CourseController extends Controller
         return Auth::user()->courses()->create($data);
     }
 
+    public function attachTags(Request $request, string $id)
+    {
+        $course = Course::findOrFail($id);
+        $course->tags()->sync($request->tags);
+        return response()->json([
+            'message' => 'Tags attached successfully',
+            'course' => $course,
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */
